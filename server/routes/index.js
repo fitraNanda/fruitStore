@@ -4,7 +4,7 @@ const categoriesRouter = require("./categoriesRouter");
 const brandRouter = require("./brandRouter");
 
 route.get("/", (req, res) => {
-  res.status(200).send("Home Page");
+  res.render("index.ejs");
 });
 
 route.use("/fruits", fruitRouter);

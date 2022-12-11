@@ -7,7 +7,8 @@ class CategoriesController {
         order: [["id", "ASC"]],
       });
 
-      res.status(200).send(fruits);
+      // res.status(200).send(fruits);
+      res.render("categories/categories.ejs", { data: fruits });
     } catch (error) {
       res.status(500).send(error);
     }
@@ -20,7 +21,8 @@ class CategoriesController {
         name: name,
       });
 
-      res.status(200).send(result);
+      // res.status(200).send(result);
+      res.redirect("/categories");
     } catch (error) {
       res.status(500).send(error);
     }
@@ -34,7 +36,8 @@ class CategoriesController {
       });
 
       if (result) {
-        res.send("berhasil");
+        // res.send("berhasil");
+        res.redirect("/categories");
       } else {
         res.send("id not found");
       }
@@ -59,7 +62,8 @@ class CategoriesController {
       );
 
       if (result[0]) {
-        res.status(200).send(result);
+        // res.status(200).send(result);
+        res.redirect("/categories");
       } else {
         throw {
           message: "id not found",
@@ -67,6 +71,22 @@ class CategoriesController {
       }
     } catch (error) {
       res.status(500).send(error);
+    }
+  }
+
+  static async addGet(req, res) {
+    res.render("categories/post.ejs");
+  }
+
+  static async updateGet(req, res) {
+    try {
+      const id = +req.params.id;
+      let result = await Categories.findByPk(id);
+
+      res.render("categories/update.ejs", { data: result });
+      // res.send(result);
+    } catch (error) {
+      res.json(error);
     }
   }
 }

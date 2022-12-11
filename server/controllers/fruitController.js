@@ -8,7 +8,8 @@ class FruitsController {
         include: [Brands, Categories],
       });
 
-      res.status(200).send(fruits);
+      // res.status(200).send(fruits);
+      res.render("fruits/fruits.ejs", { data: fruits });
     } catch (error) {
       res.status(500).send(error);
       console.log(error);
@@ -27,7 +28,8 @@ class FruitsController {
         CategoryId: +CategoryId,
       });
 
-      res.status(200).send(result);
+      // res.status(200).send(result);
+      res.redirect("/fruits");
     } catch (error) {
       res.status(500).send(error);
     }
@@ -41,7 +43,8 @@ class FruitsController {
       });
 
       if (result) {
-        res.send("berhasil");
+        // res.send("berhasil");
+        res.redirect("/fruits");
       } else {
         res.send("id not found");
       }
@@ -71,7 +74,8 @@ class FruitsController {
       );
 
       if (result[0]) {
-        res.status(200).send(result);
+        // res.status(200).send(result);
+        res.redirect("/fruits");
       } else {
         throw {
           message: "id not found",
@@ -79,6 +83,24 @@ class FruitsController {
       }
     } catch (error) {
       res.status(500).send(error);
+    }
+  }
+
+  static async addGet(req, res) {
+    res.render("fruits/post.ejs");
+  }
+
+  static async updateGet(req, res) {
+    try {
+      const id = +req.params.id;
+      let result = await Fruits.findByPk(id, {
+        include: [Brands, Categories],
+      });
+
+      res.render("fruits/update.ejs", { data: result });
+      // res.send(result);
+    } catch (error) {
+      res.json(error);
     }
   }
 }
